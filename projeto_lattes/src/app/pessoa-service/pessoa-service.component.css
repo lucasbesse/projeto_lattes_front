@@ -1,0 +1,31 @@
+.form-container{
+    width: 50vw;
+    height: 100vh;
+    margin-top: 110px;
+    display: flex;
+    flex-direction: column;
+}
+.form-card{
+    width: 100%;
+    height: auto;
+    min-height: 70px;
+    background: rgb(71, 79, 91);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 12px;
+}
+.card-title{
+    color: rgb(162, 162, 255);
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+.text{
+    background: rgb(95, 102, 111);
+    height: 40px;
+    border-radius: 6px;
+    color: white;
+    padding-left: 10px;
+    border: none;
+}
