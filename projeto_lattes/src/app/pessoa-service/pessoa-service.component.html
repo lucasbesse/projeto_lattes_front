@@ -1,14 +1,46 @@
-<div class="form-container">
-    <div class="form-card">
-        <span class="card-title">Nome da pessoa</span>
-        <input class="text" type="text">
+<div class="abas-container">
+    <div class="aba" [ngClass]="{'aba-active' : register == true}" (click)="manage = false; register = true">
+        <span class="iconify" data-icon="mdi:register" style="font-size: 25px; margin-right: 10px;"></span>
+        <span>Cadastrar</span>
     </div>
-    <div class="form-card">
-        <span class="card-title">Idade da pessoa:</span>
-        <input class="text" type="number">
-    </div>
-    <div class="form-card">
-        <span class="card-title">Projetos que participa:</span>
-        <input class="text" type="number">
+    <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false">
+        <span class="iconify" data-icon="material-symbols:manage-search" style="font-size: 25px; margin-right: 10px;"></span>
+        <span>Gerenciar</span>
     </div>
 </div>
+<div class="big-container">
+    <div class="form-container animate__animated animate__fadeInDown" *ngIf="register">
+        <div class="form-card">
+            <span class="card-title">Nome da pessoa</span>
+            <input [formControl]="name" class="text" type="text">
+        </div>
+        <div class="form-card">
+            <span class="card-title">CPF da pessoa:</span>
+            <input [formControl]="cpf" class="text" type="number">
+        </div>
+        <div class="form-card">
+            <span class="card-title">Projetos que participa:</span>
+            <mat-form-field>
+                <mat-label>Projetos</mat-label>
+                <mat-select multiple [formControl]="projects">
+                  <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-card">
+            <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
+                <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>
+                <div class="button" style="background: rgb(247, 77, 77);" (click)="clear()">Limpar</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cards-container" *ngIf="manage">
+        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,2]">
+
+        </div>
+    </div>
+    
+</div>
+
+

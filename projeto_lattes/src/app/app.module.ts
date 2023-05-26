@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { PessoaServiceComponent } from './pessoa-service/pessoa-service.component';
 import { InitialPageComponent } from './initial-page/initial-page.component';
 import { InitialPageV2Component } from './initial-page-v2/initial-page-v2.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,12 @@ import { InitialPageV2Component } from './initial-page-v2/initial-page-v2.compon
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
