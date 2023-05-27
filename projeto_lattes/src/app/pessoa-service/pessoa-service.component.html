@@ -36,8 +36,31 @@
     </div>
 
     <div class="cards-container" *ngIf="manage">
-        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,2]">
-
+        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+            <div class="options" (click)="showOptions = !showOptions">
+                <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
+            </div>
+            <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="showOptions">
+                <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
+                <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
+            </div>
+            <span class="iconify person-icon" data-icon="material-symbols:person"></span>
+            <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
+            <span class="name">Lucas Gonçalves Bessegato</span>
+            <div class="banner not-projects">0 projetos vinculados</div>
+        </div>
+        <div class="person-card animate__animated animate__flipInY" >
+            <div class="options" (click)="showOptions = true">
+                <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
+            </div>
+            <div class="options-modal animate__animated animate__flipInY" *ngIf="showOptions">
+                <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
+                <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
+            </div>
+            <span class="iconify person-icon" data-icon="material-symbols:person"></span>
+            <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
+            <span class="name">Walter White</span>
+            <div class="banner has-projects">2 projetos vinculados</div>
         </div>
     </div>
     

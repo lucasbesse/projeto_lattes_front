@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class PessoaServiceComponent {
 
+  public showOptions: boolean = false;
+
   public register: boolean = true;
   public manage: boolean = false;
 
