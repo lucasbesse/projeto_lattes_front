@@ -1,22 +1,36 @@
+<span style="width: 100%; display: flex; justify-content: center !important; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">Pessoas</span>
+<hr style="background: white; height: 2px; width: 30%; border-radius: 10px;">
 <div class="abas-container">
-    <div class="aba" [ngClass]="{'aba-active' : register == true}" (click)="manage = false; register = true">
-        <span class="iconify" data-icon="mdi:register" style="font-size: 25px; margin-right: 10px;"></span>
-        <span>Cadastrar</span>
-    </div>
     <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false">
         <span class="iconify" data-icon="material-symbols:manage-search" style="font-size: 25px; margin-right: 10px;"></span>
         <span>Gerenciar</span>
+    </div>
+    <div class="aba" [ngClass]="{'aba-active' : register == true}" (click)="manage = false; register = true">
+        <span class="iconify" data-icon="mdi:register" style="font-size: 25px; margin-right: 10px;"></span>
+        <span>Cadastrar</span>
     </div>
 </div>
 <div class="big-container">
     <div class="form-container animate__animated animate__fadeInDown" *ngIf="register">
         <div class="form-card">
-            <span class="card-title">Nome da pessoa</span>
+            <span class="card-title">Nome da pessoa:</span>
             <input [formControl]="name" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">CPF da pessoa:</span>
-            <input [formControl]="cpf" class="text" type="number">
+            <span class="card-title">E-mail da pessoa:</span>
+            <input [formControl]="email" class="text" type="text">
+        </div>
+        <div class="form-card">
+            <span class="card-title">Formação acadêmica:</span>
+            <input [formControl]="formation" class="text" type="text">
+        </div>
+        <div class="form-card">
+            <span class="card-title">Data de início:</span>
+            <input [formControl]="start_date" class="text" type="date">
+        </div>
+        <div class="form-card">
+            <span class="card-title">Data final:</span>
+            <input [formControl]="end_date" class="text" type="date">
         </div>
         <div class="form-card">
             <span class="card-title">Projetos que participa:</span>
@@ -41,7 +55,7 @@
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
             </div>
             <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="showOptions">
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
+                <div (click)="editRegister($event)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
                 <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
             </div>
             <span class="iconify person-icon" data-icon="material-symbols:person"></span>
@@ -65,5 +79,46 @@
     </div>
     
 </div>
-
+<div class="edit-modal-container" *ngIf="editModal" (click)="closeEditModal()">
+    <div class="edit-modal animate__animated animate__fadeInDown" (click)="stopPropagation($event)">
+        <span style="width: 100%; display: flex; justify-self: flex-start !important; color: white; margin-bottom: 10px; font-size: 17px; margin-top: 10px; margin-left: 10px;">Editar pessoa</span>
+        <div class="form-container" style="width: 100% !important;">
+            <div class="form-card">
+                <span class="card-title">Nome da pessoa:</span>
+                <input [formControl]="name" class="text" type="text">
+            </div>
+            <div class="form-card">
+                <span class="card-title">E-mail da pessoa:</span>
+                <input [formControl]="email" class="text" type="text">
+            </div>
+            <div class="form-card">
+                <span class="card-title">Formação acadêmica:</span>
+                <input [formControl]="formation" class="text" type="text">
+            </div>
+            <div class="form-card">
+                <span class="card-title">Data de início:</span>
+                <input [formControl]="start_date" class="text" type="date">
+            </div>
+            <div class="form-card">
+                <span class="card-title">Data final:</span>
+                <input [formControl]="end_date" class="text" type="date">
+            </div>
+            <div class="form-card">
+                <span class="card-title">Projetos que participa:</span>
+                <mat-form-field>
+                    <mat-label>Projetos</mat-label>
+                    <mat-select multiple [formControl]="projects">
+                      <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form-card">
+                <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
+                    <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>
+                    <div class="button" style="background: rgb(247, 77, 77);" (click)="clear()">Limpar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
