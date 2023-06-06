@@ -1,4 +1,4 @@
-<span style="width: 100%; display: flex; justify-content: center !important; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">Pessoas</span>
+<span style="width: 100%; display: flex; justify-content: center !important; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">Projetos</span>
 <hr style="background: white; height: 2px; width: 30%; border-radius: 10px;">
 <div class="abas-container">
     <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false">
@@ -41,7 +41,11 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="form-card">
+        <div class="form-card error-border">
+            <div class="warning" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;">
+                <span class="iconify" data-icon="ph:warning-fill"></span>
+                <span>Erro: Preencha os campos obrigatórios.</span>
+            </div>
             <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
                 <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>
                 <div class="button" style="background: rgb(247, 77, 77);" (click)="clear()">Limpar</div>
@@ -58,10 +62,10 @@
                 <div (click)="editRegister($event)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
                 <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
             </div>
-            <span class="iconify person-icon" data-icon="material-symbols:person"></span>
+            <span class="iconify person-icon" data-icon="ic:baseline-work"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">Lucas Gonçalves Bessegato</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner not-projects">0 pessoas vinculados</div>
         </div>
         <div class="person-card animate__animated animate__flipInY" >
             <div class="options" (click)="showOptions = true">
@@ -71,10 +75,10 @@
                 <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
                 <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
             </div>
-            <span class="iconify person-icon" data-icon="material-symbols:person"></span>
+            <span class="iconify person-icon" data-icon="ic:baseline-work"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">Walter White</span>
-            <div class="banner has-projects">2 projetos vinculados</div>
+            <div class="banner has-projects">2 pessoas vinculados</div>
         </div>
     </div>
     
