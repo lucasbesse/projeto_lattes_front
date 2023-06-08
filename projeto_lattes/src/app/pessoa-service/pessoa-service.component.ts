@@ -10,28 +10,47 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './pessoa-service.component.html',
   styleUrls: ['./pessoa-service.component.scss']
 })
-export class PessoaServiceComponent {
+export class PessoaServiceComponent implements OnInit {
+
+  ngOnInit(): void {
+    fetch('http://localhost:5000/pessoas?limit=200&offset=0').then(data=>{
+      return data.json()
+    }).then((result=>{
+      console.log(result)
+      this.card_infos = result
+      for(let r of this.card_infos){
+        r.showOptions = false
+      }
+    }))
+  }
+
+  public selectedPerson: any = {}
 
   public showOptions: boolean = false;
-
+  public card_infos: any = []
   public register: boolean = false
   public manage: boolean = true;
 
   public editModal: boolean = false;
 
-  projects = new FormControl('');
   name = new FormControl('');
   email = new FormControl('');
-  start_date = new FormControl('');
-  end_date = new FormControl('');
   formation = new FormControl('');
+  experience = new FormControl('');
 
-  projectsList: any = [
-    { nome: 'Projeto 1', id: 1 },
-    { nome: 'Projeto 2', id: 2 },
-    { nome: 'Projeto 3', id: 3 },
-    { nome: 'Projeto 4', id: 4 }
-  ];
+  public error: boolean = false;
+
+  public dummyInfos: any = [
+    {nome: 'Lucas Bessegat Goncalves', email: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
+    {nome: 'João Silva', email: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
+    {nome: 'Maria Santos', email: 'maria.santos', formacao: 'formação', experiencia: 'experiencia3'},
+    {nome: 'Carlos Oliveira', email: 'carlos.oliveira', formacao: 'formação', experiencia: 'experiencia4'},
+    {nome: 'Ana Pereira', email: 'ana.pereira', formacao: 'formação', experiencia: 'experiencia5'},
+    {nome: 'Pedro Rocha', email: 'pedro.rocha', formacao: 'formação', experiencia: 'experiencia6'},
+    {nome: 'Isabela Ferreira', email: 'isabela.ferreira', formacao: 'formação', experiencia: 'experiencia7'},
+    {nome: 'Rafael Santos', email: 'rafael.santos', formacao: 'formação', experiencia: 'experiencia8'}
+  ]
+
 
   public infos : any = {
 
@@ -40,17 +59,40 @@ export class PessoaServiceComponent {
 
   save(){
     this.infos = {
-      name: this.name.value,
+      nome: this.name.value,
       email: this.email.value,
-      projects: this.projects.value,
-      start_date: this.start_date.value,
-      end_date: this.end_date.value,
-      formation: this.formation.value
+      formacao: this.formation.value,
+      experiencia: this.experience.value,
     }
+
+    if(this.infos.nome == ''){
+      this.error = true
+      return
+    }
+    else{
+      this.error = false
+      fetch('http://localhost:5000/pessoas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.infos)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+            
+        }
 
     console.log(this.infos)
   }
 
+
+  
 
 
   clear(){
@@ -61,9 +103,14 @@ export class PessoaServiceComponent {
     this.editModal = false
   }
 
-  editRegister(e : Event){
+  editRegister(e : Event, person: any){
     e.stopPropagation()
     this.editModal = true
+    this.selectedPerson = person
+    this.name.setValue(this.selectedPerson.nome)
+    this.email.setValue(this.selectedPerson.email)
+    this.formation.setValue(this.selectedPerson.formacao)
+    this.experience.setValue(this.selectedPerson.experiencia)
 
   }
 

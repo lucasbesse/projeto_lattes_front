@@ -13,7 +13,7 @@
 <div class="big-container">
     <div class="form-container animate__animated animate__fadeInDown" *ngIf="register">
         <div class="form-card">
-            <span class="card-title">Nome da pessoa:</span>
+            <span class="card-title">Nome da pessoa: <i>- obrigatório</i></span>
             <input [formControl]="name" class="text" type="text">
         </div>
         <div class="form-card">
@@ -25,23 +25,14 @@
             <input [formControl]="formation" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">Data de início:</span>
-            <input [formControl]="start_date" class="text" type="date">
+            <span class="card-title">Experiência profissional:</span>
+            <input [formControl]="experience" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">Data final:</span>
-            <input [formControl]="end_date" class="text" type="date">
-        </div>
-        <div class="form-card">
-            <span class="card-title">Projetos que participa:</span>
-            <mat-form-field>
-                <mat-label>Projetos</mat-label>
-                <mat-select multiple [formControl]="projects">
-                  <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="form-card">
+            <div class="warning" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
+                <span class="iconify" data-icon="ph:warning-fill"></span>
+                <span>Erro: Preencha os campos obrigatórios.</span>
+            </div>
             <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
                 <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>
                 <div class="button" style="background: rgb(247, 77, 77);" (click)="clear()">Limpar</div>
@@ -50,31 +41,18 @@
     </div>
 
     <div class="cards-container" *ngIf="manage">
-        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of [1,2,3,4,5,6,7,8]">
-            <div class="options" (click)="showOptions = !showOptions">
+        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of card_infos">
+            <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
             </div>
-            <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="showOptions">
-                <div (click)="editRegister($event)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
+            <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="i.showOptions">
+                <div (click)="editRegister($event, i)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
                 <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
             </div>
             <span class="iconify person-icon" data-icon="material-symbols:person"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
-            <span class="name">Lucas Gonçalves Bessegato</span>
+            <span class="name">{{i.nome}}</span>
             <div class="banner not-projects">0 projetos vinculados</div>
-        </div>
-        <div class="person-card animate__animated animate__flipInY" >
-            <div class="options" (click)="showOptions = true">
-                <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
-            </div>
-            <div class="options-modal animate__animated animate__flipInY" *ngIf="showOptions">
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
-            </div>
-            <span class="iconify person-icon" data-icon="material-symbols:person"></span>
-            <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
-            <span class="name">Walter White</span>
-            <div class="banner has-projects">2 projetos vinculados</div>
         </div>
     </div>
     
@@ -97,14 +75,10 @@
                     <input [formControl]="formation" class="text" type="text">
                 </div>
                 <div class="form-card">
-                    <span class="card-title">Data de início:</span>
-                    <input [formControl]="start_date" class="text" type="date">
+                    <span class="card-title">Experiência profissional:</span>
+                    <input [formControl]="experience" class="text" type="text">
                 </div>
-                <div class="form-card">
-                    <span class="card-title">Data final:</span>
-                    <input [formControl]="end_date" class="text" type="date">
-                </div>
-                <div class="form-card">
+                <!-- <div class="form-card">
                     <span class="card-title">Projetos que participa:</span>
                     <mat-form-field>
                         <mat-label>Projetos</mat-label>
@@ -112,7 +86,7 @@
                           <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div> -->
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
                         <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>

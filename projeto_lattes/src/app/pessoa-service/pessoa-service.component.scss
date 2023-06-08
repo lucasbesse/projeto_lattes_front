@@ -248,4 +248,20 @@
 .edit-modal .form-card{
   width: auto !important;
 }
+.warning span{
+  color: rgb(171, 5, 5);
+  font-style: italic;
+  font-size: 16px;
+}
+.warning{
+  margin-bottom: 15px;
+}
+.warning .iconify{
+  font-size: 20px;
+  margin-right: 8px;
+  color: rgb(171, 5, 5) !important;
+}
+.error-border{
+  border: 2px solid rgb(171, 5, 5);
+}
 
