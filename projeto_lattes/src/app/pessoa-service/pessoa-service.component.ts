@@ -13,15 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class PessoaServiceComponent implements OnInit {
 
   ngOnInit(): void {
-    fetch('http://localhost:5000/pessoas?limit=200&offset=0').then(data=>{
-      return data.json()
-    }).then((result=>{
-      console.log(result)
-      this.card_infos = result
-      for(let r of this.card_infos){
-        r.showOptions = false
-      }
-    }))
+    this.getData()
   }
 
   public selectedPerson: any = {}
@@ -55,9 +47,43 @@ export class PessoaServiceComponent implements OnInit {
   public infos : any = {
 
   }
+
+  getData(){
+    this.card_infos = []
+    fetch('http://localhost:5000/pessoas?limit=200&offset=0').then(data=>{
+      return data.json()
+    }).then((result=>{
+      console.log(result)
+      this.card_infos = result
+      for(let r of this.card_infos){
+        r.showOptions = false
+      }
+    }))
+  }
+
+  deleteRegister(e:Event, id: any){
+    e.stopPropagation()
+    fetch(`http://localhost:5000/pessoas/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.selectedPerson = ''
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+    this.editModal = false
+    this.getData()
+  }
   
 
-  save(){
+  save(edit?: any, id?: any){
     this.infos = {
       nome: this.name.value,
       email: this.email.value,
@@ -65,30 +91,54 @@ export class PessoaServiceComponent implements OnInit {
       experiencia: this.experience.value,
     }
 
-    if(this.infos.nome == ''){
-      this.error = true
-      return
+    if(edit){
+      fetch(`http://localhost:5000/pessoas/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.infos)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.selectedPerson = ''
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+        this.editModal = false
+        this.getData()
+
     }
     else{
-      this.error = false
-      fetch('http://localhost:5000/pessoas', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.infos)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+      if(this.infos.nome == ''){
+        this.error = true
+        return
+      }
+      else{
+        this.error = false
+        fetch('http://localhost:5000/pessoas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.infos)
       })
-      .catch(error => {
-        console.error(error);
-      });
-            
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+              
         }
+    }
 
     console.log(this.infos)
+    this.clear()
   }
 
 
@@ -96,7 +146,10 @@ export class PessoaServiceComponent implements OnInit {
 
 
   clear(){
-
+    this.name.setValue('')
+    this.email.setValue('')
+    this.formation.setValue('')
+    this.experience.setValue('')
   }
 
   closeEditModal(){
