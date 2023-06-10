@@ -34,6 +34,47 @@
     background: #FF0000;
     border-radius: 5px;
 }
+.alert{
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      margin: 30px;
+      background-color: rgba(45, 70, 198, 0.9);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      min-width: 260px;
+      height: 60px;
+      padding-left: 6px;
+      padding-right: 6px;
+      border-radius: 10px;
+      box-shadow: 6px 5px 3px 1px rgba(0,0,0,0.29);
+      z-index: 10000;
+    }
+    .warning{
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      margin: 30px;
+      background-color: rgba(197, 43, 16, 0.9);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      padding-left: 6px;
+      padding-right: 6px;
+      min-width: 260px;
+      height: 60px;
+      border-radius: 10px;
+      z-index: 10000;
+    }
   </style>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -44,6 +85,9 @@
   />
 </head>
 <body class="mat-typography">
+
+  <div class="alert"></div>
+  <div class="warning"></div>
   <app-root></app-root>
 </body>
 </html>

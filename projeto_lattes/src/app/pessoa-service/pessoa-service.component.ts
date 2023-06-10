@@ -72,14 +72,15 @@ export class PessoaServiceComponent implements OnInit {
         .then(response => response.json())
         .then(data => {
           console.log(data);
-          this.selectedPerson = ''
+          this.selectedPerson = '' 
+          this.editModal = false
+          this.getData()
+          this.alert('alert', 'Pessoa deletada com sucesso.')
         })
         .catch(error => {
           console.error(error);
         });
 
-    this.editModal = false
-    this.getData()
   }
   
 
@@ -103,13 +104,14 @@ export class PessoaServiceComponent implements OnInit {
         .then(data => {
           console.log(data);
           this.selectedPerson = ''
+          this.editModal = false
+          this.getData()
+          this.alert('alert', 'Informações atualizadas com sucesso.')
         })
         .catch(error => {
           console.error(error);
         });
 
-        this.editModal = false
-        this.getData()
 
     }
     else{
@@ -129,6 +131,7 @@ export class PessoaServiceComponent implements OnInit {
         .then(response => response.json())
         .then(data => {
           console.log(data);
+          this.alert('alert', 'Pessoa criada com sucesso.')
         })
         .catch(error => {
           console.error(error);
@@ -170,4 +173,31 @@ export class PessoaServiceComponent implements OnInit {
   stopPropagation(e: Event){
     e.stopPropagation()
   }
+
+
+
+
+
+
+
+
+
+  alert(type: any, text: string){
+    if(type == 'alert'){
+        let alert = document.querySelector('.alert') as HTMLDivElement
+        alert.style.display = 'flex'
+        alert.innerHTML = text
+        setTimeout(()=>{
+          alert.style.display = 'none'
+        }, 4000)
+    }
+    if(type == 'warning'){
+        let alert = document.querySelector('.warning') as HTMLDivElement
+        alert.style.display = 'flex'
+        alert.innerHTML = text
+        setTimeout(()=>{
+          alert.style.display = 'none'
+        }, 4000)
+    }
+}
 }

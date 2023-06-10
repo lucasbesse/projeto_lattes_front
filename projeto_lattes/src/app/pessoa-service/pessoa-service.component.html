@@ -1,4 +1,8 @@
-<span style="width: 100%; display: flex; justify-content: center !important; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">Pessoas</span>
+
+<div style="width: 100%; display: flex; justify-content: center !important; align-items: center; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">
+    <span style="font-size: 35px; margin-right: 20px;" class="iconify" data-icon="ic:baseline-people"></span>
+    <span>Pessoas</span>
+</div>
 <hr style="background: white; height: 2px; width: 30%; border-radius: 10px;">
 <div class="abas-container">
     <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false; getData()">
@@ -29,7 +33,7 @@
             <input [formControl]="experience" class="text" type="text">
         </div>
         <div class="form-card">
-            <div class="warning" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
+            <div class="warning-2" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
                 <span class="iconify" data-icon="ph:warning-fill"></span>
                 <span>Erro: Preencha os campos obrigatórios.</span>
             </div>
