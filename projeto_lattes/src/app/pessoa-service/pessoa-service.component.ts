@@ -22,6 +22,7 @@ export class PessoaServiceComponent implements OnInit {
   public card_infos: any = []
   public register: boolean = false
   public manage: boolean = true;
+  public openFilters: boolean = false
 
   public editModal: boolean = false;
 
@@ -177,7 +178,12 @@ export class PessoaServiceComponent implements OnInit {
 
 
 
-
+  openFiltersModal(){
+    this.openFilters = !this.openFilters
+  }
+  closeFiltersModal(){
+    this.openFilters = false
+  }
 
 
 

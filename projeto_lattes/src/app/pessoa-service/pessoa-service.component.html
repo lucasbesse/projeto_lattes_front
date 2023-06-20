@@ -15,6 +15,46 @@
     </div>
 </div>
 <div class="big-container">
+    <div style="display: flex; width: 80%; align-items: center; margin-top:20px; justify-content: center;" *ngIf="manage">
+        <input type="text" class="search-input" placeholder="Busque por nome">
+        <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;">
+            <span class="iconify" style="font-size: 20px; margin-right: 8px;" data-icon="material-symbols:search"></span>
+            <span>Pesquisar</span>
+        </div>
+        <div class="search-btn" style="background: rgb(134 134 232);" (click)="openFiltersModal()">
+            <span class="iconify" style="font-size: 23px; margin-right: 10px;" data-icon="ion:options-outline"></span>
+            <span>Filtros</span>
+        </div>
+    </div>
+    <div style="display: flex; width: 80%; align-items: center; margin-top:40px; position: relative; justify-content: center;" *ngIf="manage">
+        <div class="filters animate__animated animate__fadeInDown" *ngIf="manage && openFilters">
+            <div style="width: 100%; display: flex; align-items: center;">
+                <div class="filter-input-container">
+                    <span>Pesquisa por email</span>
+                    <input type="text" class="filter-input" placeholder="Digite o email">
+                </div>
+                <div class="filter-input-container">
+                    <span>Pesquisa por experiência</span>
+                    <input type="text" class="filter-input" placeholder="Digite a experiência">
+                </div>
+                <div class="filter-input-container">
+                    <span>Pesquisa por formação</span>
+                    <input type="text" class="filter-input" placeholder="Digite a formação">
+                </div>
+            </div>
+            <div style="display: flex; width: 100%; align-items: center; margin-top:40px; justify-content: flex-end;">
+                <div class="search-btn">
+                    <span class="iconify" style="font-size: 23px; margin-right: 10px;" data-icon="material-symbols:search"></span>
+                    <span>Pesquisar</span>
+                </div>
+                <div class="search-btn" style="border: 2px solid rgb(245, 62, 62); background: white; color: rgb(245, 62, 62)">
+                    <span>Limpar</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="form-container animate__animated animate__fadeInDown" *ngIf="register">
         <div class="form-card">
             <span class="card-title">Nome da pessoa: <i>- obrigatório</i></span>
@@ -44,7 +84,8 @@
         </div>
     </div>
 
-    <div class="cards-container" *ngIf="manage">
+    <div class="cards-container" *ngIf="manage" style="margin-top: -20px;">
+
         <div class="person-card animate__animated animate__flipInY" *ngFor="let i of card_infos">
             <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
