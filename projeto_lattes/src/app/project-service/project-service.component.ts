@@ -12,62 +12,196 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class ProjectServiceComponent {
 
-  public showOptions: boolean = false;
+  ngOnInit(): void {
+    this.getData()
+  }
 
+  public selectedPerson: any = {}
+
+  public showOptions: boolean = false;
+  public card_infos: any = []
   public register: boolean = false
   public manage: boolean = true;
+  public openFilters: boolean = false
 
   public editModal: boolean = false;
 
-  projects = new FormControl('');
   name = new FormControl('');
   email = new FormControl('');
-  start_date = new FormControl('');
-  end_date = new FormControl('');
   formation = new FormControl('');
+  experience = new FormControl('');
 
-  projectsList: any = [
-    { nome: 'Projeto 1', id: 1 },
-    { nome: 'Projeto 2', id: 2 },
-    { nome: 'Projeto 3', id: 3 },
-    { nome: 'Projeto 4', id: 4 }
-  ];
+  public error: boolean = false;
+
+  public dummyInfos: any = [
+    {nome: 'Lucas Bessegat Goncalves', email: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
+    {nome: 'João Silva', email: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
+    {nome: 'Maria Santos', email: 'maria.santos', formacao: 'formação', experiencia: 'experiencia3'},
+    {nome: 'Carlos Oliveira', email: 'carlos.oliveira', formacao: 'formação', experiencia: 'experiencia4'},
+    {nome: 'Ana Pereira', email: 'ana.pereira', formacao: 'formação', experiencia: 'experiencia5'},
+    {nome: 'Pedro Rocha', email: 'pedro.rocha', formacao: 'formação', experiencia: 'experiencia6'},
+    {nome: 'Isabela Ferreira', email: 'isabela.ferreira', formacao: 'formação', experiencia: 'experiencia7'},
+    {nome: 'Rafael Santos', email: 'rafael.santos', formacao: 'formação', experiencia: 'experiencia8'}
+  ]
+
 
   public infos : any = {
 
   }
+
+  getData(){
+    this.card_infos = []
+    fetch('http://localhost:5000/projetos?limit=200&offset=0').then(data=>{
+      return data.json()
+    }).then((result=>{
+      console.log(result)
+      this.card_infos = result
+      for(let r of this.card_infos){
+        r.showOptions = false
+      }
+    }))
+  }
+
+  deleteRegister(e:Event, id: any){
+    e.stopPropagation()
+    fetch(`http://localhost:5000/pessoas/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.selectedPerson = '' 
+          this.editModal = false
+          this.getData()
+          this.alert('alert', 'Pessoa deletada com sucesso.')
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+  }
   
 
-  save(){
+  save(edit?: any, id?: any){
     this.infos = {
-      name: this.name.value,
-      email: this.email.value,
-      projects: this.projects.value,
-      start_date: this.start_date.value,
-      end_date: this.end_date.value,
-      formation: this.formation.value
+      titulo: this.name.value,
+      descricao: this.email.value
+    }
+
+    if(edit){
+      fetch(`http://localhost:5000/pessoas/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.infos)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.selectedPerson = ''
+          this.editModal = false
+          this.getData()
+          this.alert('alert', 'Informações atualizadas com sucesso.')
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+
+    }
+    else{
+      if(this.infos.nome == ''){
+        this.error = true
+        return
+      }
+      else{
+        this.error = false
+        fetch('http://localhost:5000/projetos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.infos)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.alert('alert', 'Pessoa criada com sucesso.')
+        })
+        .catch(error => {
+          console.error(error);
+        });
+              
+        }
     }
 
     console.log(this.infos)
+    this.clear()
   }
 
 
+  
+
 
   clear(){
-
+    this.name.setValue('')
+    this.email.setValue('')
+    this.formation.setValue('')
+    this.experience.setValue('')
   }
 
   closeEditModal(){
     this.editModal = false
   }
 
-  editRegister(e : Event){
+  editRegister(e : Event, person: any){
     e.stopPropagation()
     this.editModal = true
+    this.selectedPerson = person
+    this.name.setValue(this.selectedPerson.nome)
+    this.email.setValue(this.selectedPerson.email)
+    this.formation.setValue(this.selectedPerson.formacao)
+    this.experience.setValue(this.selectedPerson.experiencia)
 
   }
 
   stopPropagation(e: Event){
     e.stopPropagation()
   }
+
+
+
+
+  openFiltersModal(){
+    this.openFilters = !this.openFilters
+  }
+  closeFiltersModal(){
+    this.openFilters = false
+  }
+
+
+
+
+  alert(type: any, text: string){
+    if(type == 'alert'){
+        let alert = document.querySelector('.alert') as HTMLDivElement
+        alert.style.display = 'flex'
+        alert.innerHTML = text
+        setTimeout(()=>{
+          alert.style.display = 'none'
+        }, 4000)
+    }
+    if(type == 'warning'){
+        let alert = document.querySelector('.warning') as HTMLDivElement
+        alert.style.display = 'flex'
+        alert.innerHTML = text
+        setTimeout(()=>{
+          alert.style.display = 'none'
+        }, 4000)
+    }
+}
 }

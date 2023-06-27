@@ -31,6 +31,16 @@ export class PessoaServiceComponent implements OnInit {
   formation = new FormControl('');
   experience = new FormControl('');
 
+  public experience_search: boolean = false;
+  public formation_search: boolean = false;
+  public email_search: boolean = false;
+  public name_search: boolean = false;
+  public text_search: any = '';
+
+  public placeholder: String = "Busque por nome"
+
+  public searched_infos: any = [];
+
   public error: boolean = false;
 
   public dummyInfos: any = [
@@ -106,6 +116,7 @@ export class PessoaServiceComponent implements OnInit {
           console.log(data);
           this.selectedPerson = ''
           this.editModal = false
+          this.searched_infos = []
           this.getData()
           this.alert('alert', 'Informações atualizadas com sucesso.')
         })
@@ -171,12 +182,53 @@ export class PessoaServiceComponent implements OnInit {
 
   }
 
-  stopPropagation(e: Event){
-    e.stopPropagation()
+  advancedSearch(){
+    this.searched_infos = []
+    if(this.experience_search == true){
+      for(let e of this.card_infos){
+        let experience = e.experiencia + ''
+        if(experience.includes(this.text_search)){
+          this.searched_infos.push(e)
+        }
+      }
+    }
+
+    this.experience_search = false
+    this.formation_search = false
+    this.email_search = false
+    this.text_search = ""
+    this.placeholder = "Busque por nome"
+    this.openFilters = false
+  }
+
+  setType(e: number){
+    if(e == 1){
+      this.email_search = true
+      this.experience_search = false
+      this.formation_search = false
+      this.placeholder = 'Busque por email'
+    }
+    if(e == 2){
+      this.email_search = false
+      this.experience_search = true
+      this.formation_search = false
+      this.placeholder = 'Busque por experiência'
+    }
+    if(e == 3){
+      this.email_search = true
+      this.experience_search = false
+      this.formation_search = true
+      this.placeholder = 'Busque por formação'
+    }
   }
 
 
 
+
+
+  stopPropagation(e: Event){
+    e.stopPropagation()
+  }
 
   openFiltersModal(){
     this.openFilters = !this.openFilters

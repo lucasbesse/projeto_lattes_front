@@ -1,48 +1,78 @@
-<span style="width: 100%; display: flex; justify-content: center !important; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">Projetos</span>
+<div style="width: 100%; display: flex; justify-content: center !important; align-items: center; color: white; margin-bottom: 10px; font-size: 22px; margin-top: 40px;">
+    <span style="font-size: 35px; margin-right: 20px;" class="iconify" data-icon="ic:baseline-people"></span>
+    <span>Projetos</span>
+</div>
 <hr style="background: white; height: 2px; width: 30%; border-radius: 10px;">
 <div class="abas-container">
-    <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false">
+    <div class="aba" [ngClass]="{'aba-active' : manage == true}" (click)="manage = true; register = false; getData()">
         <span class="iconify" data-icon="material-symbols:manage-search" style="font-size: 25px; margin-right: 10px;"></span>
         <span>Gerenciar</span>
     </div>
-    <div class="aba" [ngClass]="{'aba-active' : register == true}" (click)="manage = false; register = true">
+    <div class="aba" [ngClass]="{'aba-active' : register == true}" (click)="manage = false; register = true; clear()">
         <span class="iconify" data-icon="mdi:register" style="font-size: 25px; margin-right: 10px;"></span>
         <span>Cadastrar</span>
     </div>
 </div>
 <div class="big-container">
+    <div style="display: flex; width: 80%; align-items: center; margin-top:20px; justify-content: center;" *ngIf="manage">
+        <input type="text" class="search-input" placeholder="Busque por nome">
+        <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;">
+            <span class="iconify" style="font-size: 20px; margin-right: 8px;" data-icon="material-symbols:search"></span>
+            <span>Pesquisar</span>
+        </div>
+        <div class="search-btn" style="background: rgb(134 134 232);" (click)="openFiltersModal()">
+            <span class="iconify" style="font-size: 23px; margin-right: 10px;" data-icon="ion:options-outline"></span>
+            <span>Filtros</span>
+        </div>
+    </div>
+    <div style="display: flex; width: 80%; align-items: center; margin-top:40px; position: relative; justify-content: center;" *ngIf="manage">
+        <div class="filters animate__animated animate__fadeInDown" *ngIf="manage && openFilters">
+            <div style="width: 100%; display: flex; align-items: center;">
+                <div class="filter-input-container">
+                    <span>Pesquisa por email</span>
+                    <input type="text" class="filter-input" placeholder="Digite o email">
+                </div>
+                <div class="filter-input-container">
+                    <span>Pesquisa por experiência</span>
+                    <input type="text" class="filter-input" placeholder="Digite a experiência">
+                </div>
+                <div class="filter-input-container">
+                    <span>Pesquisa por formação</span>
+                    <input type="text" class="filter-input" placeholder="Digite a formação">
+                </div>
+            </div>
+            <div style="display: flex; width: 100%; align-items: center; margin-top:40px; justify-content: flex-end;">
+                <div class="search-btn">
+                    <span class="iconify" style="font-size: 23px; margin-right: 10px;" data-icon="material-symbols:search"></span>
+                    <span>Pesquisar</span>
+                </div>
+                <div class="search-btn" style="border: 2px solid rgb(245, 62, 62); background: white; color: rgb(245, 62, 62)">
+                    <span>Limpar</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="form-container animate__animated animate__fadeInDown" *ngIf="register">
         <div class="form-card">
-            <span class="card-title">Nome da pessoa:</span>
+            <span class="card-title">Nome do projeto: <i>- obrigatório</i></span>
             <input [formControl]="name" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">E-mail da pessoa:</span>
+            <span class="card-title">Descrição do projeto:</span>
             <input [formControl]="email" class="text" type="text">
         </div>
-        <div class="form-card">
+        <!-- <div class="form-card">
             <span class="card-title">Formação acadêmica:</span>
             <input [formControl]="formation" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">Data de início:</span>
-            <input [formControl]="start_date" class="text" type="date">
-        </div>
+            <span class="card-title">Experiência profissional:</span>
+            <input [formControl]="experience" class="text" type="text">
+        </div> -->
         <div class="form-card">
-            <span class="card-title">Data final:</span>
-            <input [formControl]="end_date" class="text" type="date">
-        </div>
-        <div class="form-card">
-            <span class="card-title">Projetos que participa:</span>
-            <mat-form-field>
-                <mat-label>Projetos</mat-label>
-                <mat-select multiple [formControl]="projects">
-                  <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="form-card error-border">
-            <div class="warning" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;">
+            <div class="warning-2" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
                 <span class="iconify" data-icon="ph:warning-fill"></span>
                 <span>Erro: Preencha os campos obrigatórios.</span>
             </div>
@@ -53,39 +83,30 @@
         </div>
     </div>
 
-    <div class="cards-container" *ngIf="manage">
-        <div class="person-card animate__animated animate__flipInY" *ngFor="let i of [1,2,3,4,5,6,7,8]">
-            <div class="options" (click)="showOptions = !showOptions">
+    <div class="cards-container" *ngIf="manage" style="margin-top: -20px;">
+
+        <div class="person-card animate__animated animate__flipInY" style="min-height: 280px;" *ngFor="let i of card_infos">
+            <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
             </div>
-            <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="showOptions">
-                <div (click)="editRegister($event)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
+            <div class="options-modal animate__animated animate__rotateInDownRight" *ngIf="i.showOptions">
+                <div (click)="editRegister($event, i)" class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
+                <div (click)="deleteRegister($event, i.codigo)" class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
             </div>
-            <span class="iconify person-icon" data-icon="ic:baseline-work"></span>
+            <span class="iconify person-icon" data-icon="healthicons:i-training-class"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
-            <span class="name">Lucas Gonçalves Bessegato</span>
-            <div class="banner not-projects">0 pessoas vinculados</div>
-        </div>
-        <div class="person-card animate__animated animate__flipInY" >
-            <div class="options" (click)="showOptions = true">
-                <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
-            </div>
-            <div class="options-modal animate__animated animate__flipInY" *ngIf="showOptions">
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:pencil"></span> <span>Editar</span>  </div>
-                <div class="modal-opt"> <span class="iconify" data-icon="mdi:trash"></span> <span>Excluir</span> </div>
-            </div>
-            <span class="iconify person-icon" data-icon="ic:baseline-work"></span>
-            <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
-            <span class="name">Walter White</span>
-            <div class="banner has-projects">2 pessoas vinculados</div>
+            <span class="name">{{i.titulo}}</span>
+            <!-- <span class="name" style="font-size: 14px;">{{i.descricao}}</span> -->
+            <span class="description" style="font-size: 14px;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam praesentium temporibus magnam voluptatum nam, quis asperiores vero distinctio ratione assumenda impedit cupiditate doloribus ullam ipsa perferendis nostrum fugit nihil inventore!
+            Eligendi, velit. Dolorem provident dolorum, et officiis tenetur repellat nostrum nam natus possimus eaque aperiam dignissimos hic excepturi a suscipit ipsam culpa quaerat deserunt iusto. Dolores sunt aut nesciunt illum.</span>
+            <div class="banner not-projects">0 projetos vinculados</div>
         </div>
     </div>
     
 </div>
 <div class="edit-modal-container" *ngIf="editModal" (click)="closeEditModal()">
     <div class="edit-modal animate__animated animate__fadeInDown" (click)="stopPropagation($event)">
-        <span style="width: 100%; display: flex; justify-self: flex-start !important; color: white; margin-bottom: 10px; font-size: 17px; margin-top: 10px; margin-left: 10px;">Editar pessoa</span>
+        <span style="width: 100%; display: flex; justify-self: flex-start !important; color: white; margin-bottom: 10px; font-size: 17px; margin-top: 10px; margin-left: 10px;">Editar projeto</span>
         <div style="height: 100%; max-height: 100%; overflow-y: auto; width: 100%">
             <div class="form-container" style="width: 100% !important;">
                 <div class="form-card">
@@ -101,25 +122,12 @@
                     <input [formControl]="formation" class="text" type="text">
                 </div>
                 <div class="form-card">
-                    <span class="card-title">Data de início:</span>
-                    <input [formControl]="start_date" class="text" type="date">
-                </div>
-                <div class="form-card">
-                    <span class="card-title">Data final:</span>
-                    <input [formControl]="end_date" class="text" type="date">
-                </div>
-                <div class="form-card">
-                    <span class="card-title">Projetos que participa:</span>
-                    <mat-form-field>
-                        <mat-label>Projetos</mat-label>
-                        <mat-select multiple [formControl]="projects">
-                          <mat-option *ngFor="let project of projectsList" [value]="project.id">{{project.nome}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                    <span class="card-title">Experiência profissional:</span>
+                    <input [formControl]="experience" class="text" type="text">
                 </div>
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
-                        <div class="button" style="background: rgb(162, 162, 255);" (click)="save()">Salvar</div>
+                        <div class="button" style="background: rgb(162, 162, 255);" (click)="save(true, selectedPerson.codigo)">Salvar</div>
                         <div class="button" style="background: rgb(247, 77, 77);" (click)="clear()">Limpar</div>
                     </div>
                 </div>

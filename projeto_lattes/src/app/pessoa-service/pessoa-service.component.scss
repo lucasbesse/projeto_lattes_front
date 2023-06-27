@@ -302,7 +302,7 @@
   flex-direction: column;
   padding: 30px;
   box-shadow: 3px 4px 6px 4px rgba(0,0,0,0.35);
-  margin-top: 125px;
+  margin-top: 95px;
 }
 .filter-input{
   border-radius: 30px;
@@ -314,10 +314,16 @@
 }
 .filter-input-container{
   display: flex; 
-  flex-direction: column; 
+  flex-direction: row; 
+  align-items: center;
   flex: 1;
   margin-right: 15px;
   margin-left: 15px;
+}
+.filter-input-container .radio{
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
 }
 .filters .search-btn{
   width: 20%;
