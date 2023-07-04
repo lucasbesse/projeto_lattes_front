@@ -29,8 +29,8 @@
         <div class="filters animate__animated animate__fadeInDown" *ngIf="manage && openFilters">
             <div style="width: 100%; display: flex; align-items: center;">
                 <div class="filter-input-container">
-                    <span>Pesquisa por email</span>
-                    <input type="text" class="filter-input" placeholder="Digite o email">
+                    <span>Pesquisa por descricao</span>
+                    <input type="text" class="filter-input" placeholder="Digite o descricao">
                 </div>
                 <div class="filter-input-container">
                     <span>Pesquisa por experiência</span>
@@ -61,16 +61,8 @@
         </div>
         <div class="form-card">
             <span class="card-title">Descrição do projeto:</span>
-            <input [formControl]="email" class="text" type="text">
+            <input [formControl]="descricao" class="text" type="text">
         </div>
-        <!-- <div class="form-card">
-            <span class="card-title">Formação acadêmica:</span>
-            <input [formControl]="formation" class="text" type="text">
-        </div>
-        <div class="form-card">
-            <span class="card-title">Experiência profissional:</span>
-            <input [formControl]="experience" class="text" type="text">
-        </div> -->
         <div class="form-card">
             <div class="warning-2" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
                 <span class="iconify" data-icon="ph:warning-fill"></span>
@@ -97,8 +89,7 @@
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.titulo}}</span>
             <!-- <span class="name" style="font-size: 14px;">{{i.descricao}}</span> -->
-            <span class="description" style="font-size: 14px;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam praesentium temporibus magnam voluptatum nam, quis asperiores vero distinctio ratione assumenda impedit cupiditate doloribus ullam ipsa perferendis nostrum fugit nihil inventore!
-            Eligendi, velit. Dolorem provident dolorum, et officiis tenetur repellat nostrum nam natus possimus eaque aperiam dignissimos hic excepturi a suscipit ipsam culpa quaerat deserunt iusto. Dolores sunt aut nesciunt illum.</span>
+            <span class="description" style="font-size: 14px;">{{i.descricao}}</span>
             <div class="banner not-projects">0 projetos vinculados</div>
         </div>
     </div>
@@ -110,20 +101,12 @@
         <div style="height: 100%; max-height: 100%; overflow-y: auto; width: 100%">
             <div class="form-container" style="width: 100% !important;">
                 <div class="form-card">
-                    <span class="card-title">Nome da pessoa:</span>
+                    <span class="card-title">Nome do projeto: <i>- obrigatório</i></span>
                     <input [formControl]="name" class="text" type="text">
                 </div>
                 <div class="form-card">
-                    <span class="card-title">E-mail da pessoa:</span>
-                    <input [formControl]="email" class="text" type="text">
-                </div>
-                <div class="form-card">
-                    <span class="card-title">Formação acadêmica:</span>
-                    <input [formControl]="formation" class="text" type="text">
-                </div>
-                <div class="form-card">
-                    <span class="card-title">Experiência profissional:</span>
-                    <input [formControl]="experience" class="text" type="text">
+                    <span class="card-title">Descrição do projeto:</span>
+                    <input [formControl]="descricao" class="text" type="text">
                 </div>
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">

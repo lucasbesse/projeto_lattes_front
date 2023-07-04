@@ -27,21 +27,21 @@ export class ProjectServiceComponent {
   public editModal: boolean = false;
 
   name = new FormControl('');
-  email = new FormControl('');
+  descricao = new FormControl('');
   formation = new FormControl('');
   experience = new FormControl('');
 
   public error: boolean = false;
 
   public dummyInfos: any = [
-    {nome: 'Lucas Bessegat Goncalves', email: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
-    {nome: 'João Silva', email: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
-    {nome: 'Maria Santos', email: 'maria.santos', formacao: 'formação', experiencia: 'experiencia3'},
-    {nome: 'Carlos Oliveira', email: 'carlos.oliveira', formacao: 'formação', experiencia: 'experiencia4'},
-    {nome: 'Ana Pereira', email: 'ana.pereira', formacao: 'formação', experiencia: 'experiencia5'},
-    {nome: 'Pedro Rocha', email: 'pedro.rocha', formacao: 'formação', experiencia: 'experiencia6'},
-    {nome: 'Isabela Ferreira', email: 'isabela.ferreira', formacao: 'formação', experiencia: 'experiencia7'},
-    {nome: 'Rafael Santos', email: 'rafael.santos', formacao: 'formação', experiencia: 'experiencia8'}
+    {nome: 'Lucas Bessegat Goncalves', descricao: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
+    {nome: 'João Silva', descricao: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
+    {nome: 'Maria Santos', descricao: 'maria.santos', formacao: 'formação', experiencia: 'experiencia3'},
+    {nome: 'Carlos Oliveira', descricao: 'carlos.oliveira', formacao: 'formação', experiencia: 'experiencia4'},
+    {nome: 'Ana Pereira', descricao: 'ana.pereira', formacao: 'formação', experiencia: 'experiencia5'},
+    {nome: 'Pedro Rocha', descricao: 'pedro.rocha', formacao: 'formação', experiencia: 'experiencia6'},
+    {nome: 'Isabela Ferreira', descricao: 'isabela.ferreira', formacao: 'formação', experiencia: 'experiencia7'},
+    {nome: 'Rafael Santos', descricao: 'rafael.santos', formacao: 'formação', experiencia: 'experiencia8'}
   ]
 
 
@@ -86,9 +86,10 @@ export class ProjectServiceComponent {
   
 
   save(edit?: any, id?: any){
+    console.log(edit)
     this.infos = {
       titulo: this.name.value,
-      descricao: this.email.value
+      descricao: this.descricao.value
     }
 
     if(edit){
@@ -149,7 +150,7 @@ export class ProjectServiceComponent {
 
   clear(){
     this.name.setValue('')
-    this.email.setValue('')
+    this.descricao.setValue('')
     this.formation.setValue('')
     this.experience.setValue('')
   }
@@ -162,10 +163,8 @@ export class ProjectServiceComponent {
     e.stopPropagation()
     this.editModal = true
     this.selectedPerson = person
-    this.name.setValue(this.selectedPerson.nome)
-    this.email.setValue(this.selectedPerson.email)
-    this.formation.setValue(this.selectedPerson.formacao)
-    this.experience.setValue(this.selectedPerson.experiencia)
+    this.name.setValue(this.selectedPerson.titulo)
+    this.descricao.setValue(this.selectedPerson.descricao)
 
   }
 
