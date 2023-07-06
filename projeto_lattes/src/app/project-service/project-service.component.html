@@ -40,6 +40,9 @@
                     <span>Pesquisa por formação</span>
                     <input type="text" class="filter-input" placeholder="Digite a formação">
                 </div>
+
+                    <span>Pesquisa por formação</span>
+
             </div>
             <div style="display: flex; width: 100%; align-items: center; margin-top:40px; justify-content: flex-end;">
                 <div class="search-btn">
@@ -63,6 +66,27 @@
             <span class="card-title">Descrição do projeto:</span>
             <input [formControl]="descricao" class="text" type="text">
         </div>
+
+        <div class="form-card" *ngIf="person_data.length > 0">
+            <span class="card-title">Integrantes:</span>
+            <mat-form-field>
+                <mat-label>Integrantes</mat-label>
+                <mat-select [(ngModel)]="integrantes" multiple>
+                  <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-card" *ngIf="person_data.length > 0">
+            <span class="card-title">Pesquisadores:</span>
+            <mat-form-field>
+                <mat-label>Pesquisadores</mat-label>
+                <mat-select [(ngModel)]="pesquisadores" multiple>
+                  <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
         <div class="form-card">
             <div class="warning-2" style="width: 100%;display: flex;align-items: center;justify-content: flex-end;" *ngIf="error">
                 <span class="iconify" data-icon="ph:warning-fill"></span>
@@ -107,6 +131,28 @@
                 <div class="form-card">
                     <span class="card-title">Descrição do projeto:</span>
                     <input [formControl]="descricao" class="text" type="text">
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.pesquisadores.length > 0">
+                    <span class="card-title">Pesquisadores vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.pesquisadores">
+                            <span>{{p.nome}}</span>
+                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer">
+                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.integrantes.length > 0">
+                    <span class="card-title">Integrantes vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.integrantes">
+                            <span>{{p.nome}}</span>
+                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer">
+                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">

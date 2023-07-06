@@ -34,7 +34,7 @@ export class PessoaServiceComponent implements OnInit {
   public experience_search: boolean = false;
   public formation_search: boolean = false;
   public email_search: boolean = false;
-  public name_search: boolean = false;
+  public name_search: boolean = true;
   public text_search: any = '';
 
   public placeholder: String = "Busque por nome"
@@ -182,12 +182,47 @@ export class PessoaServiceComponent implements OnInit {
 
   }
 
+  clearFilter(){
+    this.searched_infos = []
+    this.email_search = false
+    this.experience_search = false
+    this.formation_search = false
+    this.name_search = true;
+    this.placeholder = 'Busque por nome'
+    this.openFilters = false
+  }
+
   advancedSearch(){
+    console.log(this.name_search)
     this.searched_infos = []
     if(this.experience_search == true){
       for(let e of this.card_infos){
         let experience = e.experiencia + ''
         if(experience.includes(this.text_search)){
+          this.searched_infos.push(e)
+        }
+      }
+    }
+    if(this.formation_search == true){
+      for(let e of this.card_infos){
+        let formation = e.formacao + ''
+        if(formation.includes(this.text_search)){
+          this.searched_infos.push(e)
+        }
+      }
+    }
+    if(this.email_search == true){
+      for(let e of this.card_infos){
+        let email = e.email + ''
+        if(email.includes(this.text_search)){
+          this.searched_infos.push(e)
+        }
+      }
+    }
+    if(this.name_search == true){
+      for(let e of this.card_infos){
+        let nome = e.nome + ''
+        if(nome.includes(this.text_search)){
           this.searched_infos.push(e)
         }
       }
@@ -206,18 +241,21 @@ export class PessoaServiceComponent implements OnInit {
       this.email_search = true
       this.experience_search = false
       this.formation_search = false
+      this.name_search = false
       this.placeholder = 'Busque por email'
     }
     if(e == 2){
       this.email_search = false
       this.experience_search = true
       this.formation_search = false
+      this.name_search = false
       this.placeholder = 'Busque por experiência'
     }
     if(e == 3){
       this.email_search = true
       this.experience_search = false
       this.formation_search = true
+      this.name_search = false
       this.placeholder = 'Busque por formação'
     }
   }

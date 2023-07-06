@@ -14,9 +14,65 @@ export class ProjectServiceComponent {
 
   ngOnInit(): void {
     this.getData()
+    this.getPersonData()
   }
 
   public selectedPerson: any = {}
+
+  public person_data: any = [];
+
+  public integrantes: any = [];
+  public pesquisadores: any = [];
+
+  public integrantes_edicao: any = [];
+  public pesquisadores_edicao: any = [];
+  public pessoasList = [
+    {
+      codigo: 1,
+      email: "abcd@email.com",
+      experiencia: "nenhuma",
+      formacao: "nada",
+      nome: "João"
+    },
+    {
+      codigo: 2,
+      email: "efgh@email.com",
+      experiencia: "pouca",
+      formacao: "graduação",
+      nome: "Maria"
+    },
+    {
+      codigo: 3,
+      email: "ijkl@email.com",
+      experiencia: "alguma",
+      formacao: "pós-graduação",
+      nome: "Pedro"
+    },
+    {
+      codigo: 4,
+      email: "mnop@email.com",
+      experiencia: "muita",
+      formacao: "doutorado",
+      nome: "Ana"
+    },
+    {
+      codigo: 5,
+      email: "qrst@email.com",
+      experiencia: "pouca",
+      formacao: "graduação",
+      nome: "Carla"
+    },
+    {
+      codigo: 6,
+      email: "uvwx@email.com",
+      experiencia: "nenhuma",
+      formacao: "nada",
+      nome: "José"
+    }
+  ];
+
+  
+  
 
   public showOptions: boolean = false;
   public card_infos: any = []
@@ -32,6 +88,22 @@ export class ProjectServiceComponent {
   experience = new FormControl('');
 
   public error: boolean = false;
+
+  public pessoas: any = [
+    {tipo:"i",
+        pessoa:{
+            codigo:3,
+            nome:"lucas"
+        }
+    },
+
+    {tipo:"p",
+    pessoa:{
+        codigo:4,
+        nome:"joao"
+        }
+    }
+]
 
   public dummyInfos: any = [
     {nome: 'Lucas Bessegat Goncalves', descricao: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
@@ -57,14 +129,27 @@ export class ProjectServiceComponent {
       console.log(result)
       this.card_infos = result
       for(let r of this.card_infos){
+        let integrantes = []
+        let pesquisadores = []
         r.showOptions = false
+        r.pessoas = this.pessoas
+        for(let p of r.pessoas){
+          if(p.tipo == "i"){
+            integrantes.push(p.pessoa)
+          }
+          if(p.tipo == "p"){
+            pesquisadores.push(p.pessoa)
+          }
+        }
+        r.pesquisadores = pesquisadores
+        r.integrantes = integrantes
       }
     }))
   }
 
   deleteRegister(e:Event, id: any){
     e.stopPropagation()
-    fetch(`http://localhost:5000/pessoas/${id}`, {
+    fetch(`http://localhost:5000/projetos/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -76,7 +161,7 @@ export class ProjectServiceComponent {
           this.selectedPerson = '' 
           this.editModal = false
           this.getData()
-          this.alert('alert', 'Pessoa deletada com sucesso.')
+          this.alert('alert', 'Projeto deletado com sucesso.')
         })
         .catch(error => {
           console.error(error);
@@ -87,9 +172,26 @@ export class ProjectServiceComponent {
 
   save(edit?: any, id?: any){
     console.log(edit)
+    let arrayPessoas = []
+    for(let i of this.integrantes){
+      let obj = {
+        tipo: "i",
+        codigo: i.codigo
+      }
+      arrayPessoas.push(obj)
+    }
+    for(let i of this.pesquisadores){
+      let obj = {
+        tipo: "p",
+        codigo: i.codigo
+      }
+      arrayPessoas.push(obj)
+    }
+
     this.infos = {
       titulo: this.name.value,
-      descricao: this.descricao.value
+      descricao: this.descricao.value,
+      pessoas: arrayPessoas
     }
 
     if(edit){
@@ -145,7 +247,15 @@ export class ProjectServiceComponent {
   }
 
 
-  
+  getPersonData(){
+    this.person_data = []
+    fetch('http://localhost:5000/pessoas?limit=200&offset=0').then(data=>{
+      return data.json()
+    }).then((result=>{
+      console.log(result)
+      this.person_data = result
+    }))
+  }
 
 
   clear(){
@@ -163,6 +273,7 @@ export class ProjectServiceComponent {
     e.stopPropagation()
     this.editModal = true
     this.selectedPerson = person
+    console.log(this.selectedPerson)
     this.name.setValue(this.selectedPerson.titulo)
     this.descricao.setValue(this.selectedPerson.descricao)
 

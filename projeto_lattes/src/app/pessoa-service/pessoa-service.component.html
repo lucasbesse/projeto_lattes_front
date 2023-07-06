@@ -17,7 +17,7 @@
 <div class="big-container">
     <div style="display: flex; width: 80%; align-items: center; margin-top:20px; justify-content: center;" *ngIf="manage">
         <input type="text" class="search-input" [placeholder]="placeholder" [(ngModel)]="text_search">
-        <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;">
+        <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;" (click)="advancedSearch()">
             <span class="iconify" style="font-size: 20px; margin-right: 8px;" data-icon="material-symbols:search"></span>
             <span>Pesquisar</span>
         </div>
@@ -43,11 +43,7 @@
                 </div>
             </div>
             <div style="display: flex; width: 100%; align-items: center; margin-top:40px; justify-content: flex-end;">
-                <div class="search-btn" (click)="advancedSearch()">
-                    <span class="iconify" style="font-size: 23px; margin-right: 10px;" data-icon="material-symbols:search"></span>
-                    <span>Pesquisar</span>
-                </div>
-                <div class="search-btn" style="border: 2px solid rgb(245, 62, 62); background: white; color: rgb(245, 62, 62)">
+                <div (click)="clearFilter()" class="search-btn" style="border: 2px solid rgb(245, 62, 62); background: white; color: rgb(245, 62, 62)">
                     <span>Limpar</span>
                 </div>
             </div>
