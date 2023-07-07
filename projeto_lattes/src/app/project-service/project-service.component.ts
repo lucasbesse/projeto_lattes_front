@@ -89,6 +89,9 @@ export class ProjectServiceComponent {
 
   public error: boolean = false;
 
+  public searched_infos: any = [];
+  public text_search: string = "";
+
   public pessoas: any = [
     {tipo:"i",
         pessoa:{
@@ -171,7 +174,11 @@ export class ProjectServiceComponent {
   
 
   save(edit?: any, id?: any){
-    console.log(edit)
+    this.error = false
+    if(this.descricao.value?.length == 0 || this.name.value?.length == 0){
+      this.error = true
+      return
+    }
     let arrayPessoas = []
     for(let i of this.integrantes){
       let obj = {
@@ -246,6 +253,16 @@ export class ProjectServiceComponent {
     this.clear()
   }
 
+  advancedSearch(){
+    this.searched_infos = []
+      for(let e of this.card_infos){
+        let nome = e.titulo + ''
+        if(nome.includes(this.text_search)){
+          this.searched_infos.push(e)
+        }
+    }
+  }
+
 
   getPersonData(){
     this.person_data = []
@@ -255,6 +272,11 @@ export class ProjectServiceComponent {
       console.log(result)
       this.person_data = result
     }))
+  }
+
+  removeRelationship(codigo: any){
+    console.log(codigo)
+    let projeto_codigo = this.selectedPerson.codigo
   }
 
 
