@@ -92,6 +92,8 @@ export class ProjectServiceComponent {
   public searched_infos: any = [];
   public text_search: string = "";
 
+  public deletarRelacoes: any = [];
+
   public pessoas: any = [
     {tipo:"i",
         pessoa:{
@@ -202,7 +204,24 @@ export class ProjectServiceComponent {
     }
 
     if(edit){
-      fetch(`http://localhost:5000/pessoas/${id}`, {
+      let pessoasUpdate: Array<any> = []
+      pessoasUpdate = this.selectedPerson.pessoas
+      this.infos.pessoas = pessoasUpdate
+      for(let i of pessoasUpdate){
+        i.codigo = i.pessoa.codigo
+        delete i.pessoa
+      }
+      for(let i of pessoasUpdate){
+        if(this.deletarRelacoes.length> 0){
+          for(let c of this.deletarRelacoes){
+            if(i.codigo == c){
+              let index = pessoasUpdate.indexOf(i)
+              pessoasUpdate.splice(index, 1)
+            }
+          }
+        }
+      }
+      fetch(`http://localhost:5000/projetos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -276,7 +295,7 @@ export class ProjectServiceComponent {
 
   removeRelationship(codigo: any){
     console.log(codigo)
-    let projeto_codigo = this.selectedPerson.codigo
+    this.deletarRelacoes.push(codigo)
   }
 
 
