@@ -4,11 +4,13 @@ import { PessoaServiceComponent } from './pessoa-service/pessoa-service.componen
 import { ProjectServiceComponent } from './project-service/project-service.component';
 import { InitialPageComponent } from './initial-page/initial-page.component'
 import { InitialPageV2Component } from './initial-page-v2/initial-page-v2.component';
+import { ResultServiceComponent } from './result-service/result-service.component';
 
 const routes: Routes = [
   {path: '', component: InitialPageV2Component},
   {path: 'pessoa', component: PessoaServiceComponent},
-  {path: 'projeto', component: ProjectServiceComponent}
+  {path: 'projeto', component: ProjectServiceComponent},
+  {path: 'resultado', component: ResultServiceComponent}
 ];
 
 @NgModule({

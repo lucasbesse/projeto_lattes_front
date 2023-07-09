@@ -7,22 +7,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-pessoa-service',
-  templateUrl: './project-service.component.html',
-  styleUrls: ['./project-service.component.scss']
+  templateUrl: './result-service.component.html',
+  styleUrls: ['./result-service.component.css']
 })
-export class ProjectServiceComponent {
+export class ResultServiceComponent {
 
   ngOnInit(): void {
     this.getData()
     this.getPersonData()
+    this.getProjectData()
   }
 
   public selectedPerson: any = {}
 
   public person_data: any = [];
+  public project_data: any = [];
 
   public integrantes: any = [];
   public pesquisadores: any = [];
+
+  public projeto: any;
 
   public integrantes_edicao: any = [];
   public pesquisadores_edicao: any = [];
@@ -102,26 +106,12 @@ export class ProjectServiceComponent {
         }
     },
 
-    {tipo:"i",
-        pessoa:{
-            codigo:5,
-            nome:"januario"
-        }
-    },
-
     {tipo:"p",
     pessoa:{
         codigo:4,
         nome:"joao"
         }
-    },
-
-    {tipo:"p",
-        pessoa:{
-            codigo:6,
-            nome:"amarildo"
-        }
-    },
+    }
 ]
 
   public dummyInfos: any = [
@@ -216,7 +206,8 @@ export class ProjectServiceComponent {
     this.infos = {
       titulo: this.name.value,
       descricao: this.descricao.value,
-      pessoas: arrayPessoas
+      pessoas: arrayPessoas,
+      projeto: this.projeto
     }
 
     if(edit){
@@ -227,35 +218,14 @@ export class ProjectServiceComponent {
         i.codigo = i.pessoa.codigo
         delete i.pessoa
       }
-      console.log(this.deletarRelacoes)
-      console.log(pessoasUpdate)
-      if(this.deletarRelacoes.length> 0){
-        for(let c of this.deletarRelacoes){
-          for(let i of pessoasUpdate){
-            if(c == i.codigo){
+      for(let i of pessoasUpdate){
+        if(this.deletarRelacoes.length> 0){
+          for(let c of this.deletarRelacoes){
+            if(i.codigo == c){
               let index = pessoasUpdate.indexOf(i)
               pessoasUpdate.splice(index, 1)
             }
           }
-        }
-      }
-      console.log(this.infos)
-      if(this.integrantes.length > 0){
-        for(let i of this.integrantes){
-          let obj = {
-            tipo: "i",
-            codigo: i.codigo
-          }
-          pessoasUpdate.push(obj)
-        }
-      }
-      if(this.pesquisadores.length > 0){
-        for(let i of this.pesquisadores){
-          let obj = {
-            tipo: "p",
-            codigo: i.codigo
-          }
-          pessoasUpdate.push(obj)
         }
       }
       fetch(`http://localhost:5000/projetos/${id}`, {
@@ -304,6 +274,8 @@ export class ProjectServiceComponent {
               
         }
     }
+
+    console.log(this.infos)
     this.clear()
   }
 
@@ -328,9 +300,19 @@ export class ProjectServiceComponent {
     }))
   }
 
+  getProjectData(){
+    this.project_data = []
+    fetch('http://localhost:5000/projetos?limit=200&offset=0').then(data=>{
+      return data.json()
+    }).then((result=>{
+      console.log(result)
+      this.project_data = result
+    }))
+  }
+
   removeRelationship(p: any){
-    this.deletarRelacoes.push(p.codigo)
     p.show = false
+    this.deletarRelacoes.push(p.codigo)
   }
 
 
@@ -343,7 +325,6 @@ export class ProjectServiceComponent {
 
   closeEditModal(){
     this.editModal = false
-    this.selectedPerson = ''
   }
 
   editRegister(e : Event, person: any){

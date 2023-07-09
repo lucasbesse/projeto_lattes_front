@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ResultServiceComponent } from './result-service/result-service.component';
 
 
 
@@ -21,7 +22,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     PessoaServiceComponent,
     ProjectServiceComponent,
     InitialPageComponent,
-    InitialPageV2Component
+    InitialPageV2Component,
+    ResultServiceComponent
   ],
   imports: [
     BrowserModule,
