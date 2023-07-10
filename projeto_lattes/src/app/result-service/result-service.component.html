@@ -29,7 +29,7 @@
             <input [formControl]="name" class="text" type="text">
         </div>
         <div class="form-card">
-            <span class="card-title">Descrição do resultado:</span>
+            <span class="card-title">Descrição do resultado: <i>- obrigatório</i></span>
             <input [formControl]="descricao" class="text" type="text">
         </div>
         <div class="form-card">
@@ -91,7 +91,8 @@
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.titulo}}</span>
             <span class="description" style="font-size: 14px;">{{i.descricao}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner has-projects" *ngIf="i.projeto != null">Possui projeto vinculado</div>
+            <div class="banner not-projects" *ngIf="i.projeto == null">Não possui projeto vinculado</div>
         </div>
     </div>
     <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: -20px;">
@@ -107,7 +108,8 @@
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.titulo}}</span>
             <span class="description" style="font-size: 14px;">{{i.descricao}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner has-projects" *ngIf="i.projeto != null">Possui projeto vinculado</div>
+            <div class="banner not-projects" *ngIf="i.projeto == null">Não possui projeto vinculado</div>
         </div>
     </div>
 
@@ -128,10 +130,6 @@
                 </div>
                 <div class="form-card">
                     <span class="card-title">Tipo do resultado:</span>
-                    <input [formControl]="tipo" class="text" type="text">
-                </div>
-                <div class="form-card">
-                    <span class="card-title">Descreva o tipo do resultado:</span>
                     <input [formControl]="tipo" class="text" type="text">
                 </div>
                 <div class="form-card" *ngIf="selectedPerson.integrantes.length > 0">
@@ -156,10 +154,21 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div class="form-card" *ngIf="selectedPerson.projeto != null">
+                    <span class="card-title">Projeto vinculado:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.integrantes"  [ngClass]="{'none' : p.show == false}">
+                            <span>{{p.nome}}</span>
+                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer" (click)="removeRelationship(p)">
+                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="form-card" *ngIf="person_data.length > 0">
                     <span class="card-title">Colaboradores:</span>
                     <mat-form-field>
-                        <mat-label>Autores</mat-label>
+                        <mat-label>Colaboradores</mat-label>
                         <mat-select [(ngModel)]="pesquisadores" multiple>
                           <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
                         </mat-select>
@@ -168,7 +177,7 @@
                 <div class="form-card" *ngIf="person_data.length > 0">
                     <span class="card-title">Autores:</span>
                     <mat-form-field>
-                        <mat-label>Colaboradores</mat-label>
+                        <mat-label>Autores</mat-label>
                         <mat-select [(ngModel)]="integrantes" multiple>
                           <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
                         </mat-select>

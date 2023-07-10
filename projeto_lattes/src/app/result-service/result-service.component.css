@@ -179,7 +179,7 @@
   .banner{
   margin-top: 20px;
   height: 30px;
-  width: 80%;
+  width: 90%;
   color: white;
   font-size: 13px;
   display: flex;
@@ -192,7 +192,7 @@
   margin-bottom: 22px;
   }
   .has-projects{
-  background: rgb(4, 115, 4);
+    background: rgb(5, 130, 5) !important;
   }
   .not-projects{
   background: rgb(185, 66, 66);

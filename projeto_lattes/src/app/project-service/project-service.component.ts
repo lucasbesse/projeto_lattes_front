@@ -94,36 +94,6 @@ export class ProjectServiceComponent {
 
   public deletarRelacoes: any = [];
 
-  public pessoas: any = [
-    {tipo:"i",
-        pessoa:{
-            codigo:3,
-            nome:"lucas"
-        }
-    },
-
-    {tipo:"i",
-        pessoa:{
-            codigo:5,
-            nome:"januario"
-        }
-    },
-
-    {tipo:"p",
-    pessoa:{
-        codigo:4,
-        nome:"joao"
-        }
-    },
-
-    {tipo:"p",
-        pessoa:{
-            codigo:6,
-            nome:"amarildo"
-        }
-    },
-]
-
   public dummyInfos: any = [
     {nome: 'Lucas Bessegat Goncalves', descricao: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
     {nome: 'João Silva', descricao: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
@@ -294,7 +264,7 @@ export class ProjectServiceComponent {
         .then(response => response.json())
         .then(data => {
           console.log(data);
-          this.alert('alert', 'Pessoa criada com sucesso.')
+          this.alert('alert', 'Projeto criado com sucesso.')
           this.clear()
           this.searched_infos = []
         })

@@ -185,7 +185,13 @@ export class ResultServiceComponent {
     }
 
     if(edit){
-      this.infos.projeto_codigo = this.selectedPerson.projeto.codigo
+      if(this.projeto != undefined){
+        this.infos.projeto_codigo = this.projeto.codigo
+      }
+      else{
+        this.infos.projeto_codigo = this.selectedPerson.projeto.codigo
+      }
+ 
       let pessoasUpdate: Array<any> = []
       pessoasUpdate = this.selectedPerson.pessoas
       this.infos.pessoas = pessoasUpdate
@@ -235,6 +241,7 @@ export class ResultServiceComponent {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Informações atualizadas com sucesso.')
+          this.clear()
         })
         .catch(error => {
           console.error(error);
@@ -261,6 +268,7 @@ export class ResultServiceComponent {
         .then(data => {
           console.log(data);
           this.alert('alert', 'Resultado criada com sucesso.')
+          this.clear()
         })
         .catch(error => {
           console.error(error);
@@ -269,8 +277,6 @@ export class ResultServiceComponent {
         }
     }
 
-    console.log(this.infos)
-    this.clear()
   }
 
   advancedSearch(){

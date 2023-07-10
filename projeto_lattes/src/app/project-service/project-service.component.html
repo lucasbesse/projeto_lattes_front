@@ -78,7 +78,7 @@
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.titulo}}</span>
             <span class="description" style="font-size: 14px;">{{i.descricao}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner not-projects" [ngClass]="{'has-projects' : i.resultados.length > 0}">{{i.resultados.length}} resultado(s) vinculado(s)</div>
         </div>
     </div>
     <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: -20px;">
@@ -94,7 +94,7 @@
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.titulo}}</span>
             <span class="description" style="font-size: 14px;">{{i.descricao}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner not-projects" [ngClass]="{'has-projects' : i.resultados.length > 0}">{{i.resultados.length}} resultado(s) vinculado(s)</div>
         </div>
     </div>
 
@@ -132,6 +132,14 @@
                             <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer" (click)="removeRelationship(p)">
                                 <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.resultados.length > 0">
+                    <span class="card-title">Resultados vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" [matTooltip]="p.descricao" mat-raised-button style="background: rgb(13, 176, 13) !important; color: white" *ngFor="let p of selectedPerson.resultados">
+                            <span>{{p.titulo}}</span>
                         </div>
                     </div>
                 </div>

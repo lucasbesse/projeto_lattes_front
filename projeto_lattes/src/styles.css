@@ -2,3 +2,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* .light-tooltip {
+    background: rgb(162, 162, 255) !important;
+    color: black !important;
+    padding: 0px !important;
+  } */

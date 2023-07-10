@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultServiceComponent } from './result-service/result-service.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 
@@ -32,7 +34,8 @@ import { ResultServiceComponent } from './result-service/result-service.componen
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
