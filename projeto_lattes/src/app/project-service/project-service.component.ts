@@ -151,7 +151,6 @@ export class ProjectServiceComponent {
         let integrantes = []
         let pesquisadores = []
         r.showOptions = false
-        r.pessoas = this.pessoas
         for(let p of r.pessoas){
           if(p.tipo == "i"){
             p.pessoa.show = true
@@ -227,8 +226,6 @@ export class ProjectServiceComponent {
         i.codigo = i.pessoa.codigo
         delete i.pessoa
       }
-      console.log(this.deletarRelacoes)
-      console.log(pessoasUpdate)
       if(this.deletarRelacoes.length> 0){
         for(let c of this.deletarRelacoes){
           for(let i of pessoasUpdate){
@@ -239,7 +236,6 @@ export class ProjectServiceComponent {
           }
         }
       }
-      console.log(this.infos)
       if(this.integrantes.length > 0){
         for(let i of this.integrantes){
           let obj = {
@@ -272,6 +268,8 @@ export class ProjectServiceComponent {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Informações atualizadas com sucesso.')
+          this.clear()
+          this.searched_infos = []
         })
         .catch(error => {
           console.error(error);
@@ -297,6 +295,8 @@ export class ProjectServiceComponent {
         .then(data => {
           console.log(data);
           this.alert('alert', 'Pessoa criada com sucesso.')
+          this.clear()
+          this.searched_infos = []
         })
         .catch(error => {
           console.error(error);
@@ -304,7 +304,7 @@ export class ProjectServiceComponent {
               
         }
     }
-    this.clear()
+
   }
 
   advancedSearch(){
@@ -339,6 +339,8 @@ export class ProjectServiceComponent {
     this.descricao.setValue('')
     this.formation.setValue('')
     this.experience.setValue('')
+    this.integrantes = []
+    this.pesquisadores = []
   }
 
   closeEditModal(){

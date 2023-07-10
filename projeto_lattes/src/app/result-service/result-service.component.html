@@ -32,6 +32,10 @@
             <span class="card-title">Descrição do resultado:</span>
             <input [formControl]="descricao" class="text" type="text">
         </div>
+        <div class="form-card">
+            <span class="card-title">Descreva o tipo do resultado:</span>
+            <input [formControl]="tipo" class="text" type="text">
+        </div>
 
         <div class="form-card" *ngIf="person_data.length > 0">
             <span class="card-title">Colaboradores:</span>
@@ -111,7 +115,7 @@
 </div>
 <div class="edit-modal-container" *ngIf="editModal" (click)="closeEditModal()">
     <div class="edit-modal animate__animated animate__fadeInDown" (click)="stopPropagation($event)">
-        <span style="width: 100%; display: flex; justify-self: flex-start !important; color: white; margin-bottom: 10px; font-size: 17px; margin-top: 10px; margin-left: 10px;">Editar projeto</span>
+        <span style="width: 100%; display: flex; justify-self: flex-start !important; color: white; margin-bottom: 10px; font-size: 17px; margin-top: 10px; margin-left: 10px;">Editar resultado</span>
         <div style="height: 100%; max-height: 100%; overflow-y: auto; width: 100%">
             <div class="form-container" style="width: 100% !important;">
                 <div class="form-card">
@@ -119,11 +123,30 @@
                     <input [formControl]="name" class="text" type="text">
                 </div>
                 <div class="form-card">
-                    <span class="card-title">Descrição do resultado:</span>
+                    <span class="card-title">Descrição do resultado: <i>- obrigatório</i></span>
                     <input [formControl]="descricao" class="text" type="text">
                 </div>
-                <div class="form-card" *ngIf="selectedPerson.pesquisadores.length > 0">
+                <div class="form-card">
+                    <span class="card-title">Tipo do resultado:</span>
+                    <input [formControl]="tipo" class="text" type="text">
+                </div>
+                <div class="form-card">
+                    <span class="card-title">Descreva o tipo do resultado:</span>
+                    <input [formControl]="tipo" class="text" type="text">
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.integrantes.length > 0">
                     <span class="card-title">Autores vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.integrantes"  [ngClass]="{'none' : p.show == false}">
+                            <span>{{p.nome}}</span>
+                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer" (click)="removeRelationship(p)">
+                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.pesquisadores.length > 0">
+                    <span class="card-title">Colaboradores vinculados:</span>
                     <div class="linked-person">
                         <div class="linked" *ngFor="let p of selectedPerson.pesquisadores"  [ngClass]="{'none' : p.show == false}">
                             <span>{{p.nome}}</span>
@@ -133,16 +156,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-card" *ngIf="selectedPerson.integrantes.length > 0">
-                    <span class="card-title">Colaboradores vinculados:</span>
-                    <div class="linked-person">
-                        <div class="linked" *ngFor="let p of selectedPerson.integrantes"  [ngClass]="{'none' : p.show == false}">
-                            <span>{{p.nome}}</span>
-                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer" (click)="removeRelationship(p)">
-                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-card" *ngIf="person_data.length > 0">
+                    <span class="card-title">Colaboradores:</span>
+                    <mat-form-field>
+                        <mat-label>Autores</mat-label>
+                        <mat-select [(ngModel)]="pesquisadores" multiple>
+                          <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-card" *ngIf="person_data.length > 0">
+                    <span class="card-title">Autores:</span>
+                    <mat-form-field>
+                        <mat-label>Colaboradores</mat-label>
+                        <mat-select [(ngModel)]="integrantes" multiple>
+                          <mat-option *ngFor="let topping of person_data" [value]="topping">{{topping.nome}} - {{topping.email}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="form-card" *ngIf="project_data.length > 0">
+                    <span class="card-title">Projeto:</span>
+                    <mat-form-field>
+                        <mat-label>Projeto</mat-label>
+                        <mat-select [(ngModel)]="projeto">
+                          <mat-option *ngFor="let topping of project_data" [value]="topping">{{topping.titulo}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">

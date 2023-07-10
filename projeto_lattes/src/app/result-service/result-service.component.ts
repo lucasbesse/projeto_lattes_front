@@ -90,6 +90,7 @@ export class ResultServiceComponent {
   descricao = new FormControl('');
   formation = new FormControl('');
   experience = new FormControl('');
+  tipo = new FormControl('');
 
   public error: boolean = false;
 
@@ -98,32 +99,7 @@ export class ResultServiceComponent {
 
   public deletarRelacoes: any = [];
 
-  public pessoas: any = [
-    {tipo:"i",
-        pessoa:{
-            codigo:3,
-            nome:"lucas"
-        }
-    },
 
-    {tipo:"p",
-    pessoa:{
-        codigo:4,
-        nome:"joao"
-        }
-    }
-]
-
-  public dummyInfos: any = [
-    {nome: 'Lucas Bessegat Goncalves', descricao: 'lucas.besse', formacao: 'formação', experiencia: 'experiencia1'},
-    {nome: 'João Silva', descricao: 'joao.silva', formacao: 'formação', experiencia: 'experiencia2'},
-    {nome: 'Maria Santos', descricao: 'maria.santos', formacao: 'formação', experiencia: 'experiencia3'},
-    {nome: 'Carlos Oliveira', descricao: 'carlos.oliveira', formacao: 'formação', experiencia: 'experiencia4'},
-    {nome: 'Ana Pereira', descricao: 'ana.pereira', formacao: 'formação', experiencia: 'experiencia5'},
-    {nome: 'Pedro Rocha', descricao: 'pedro.rocha', formacao: 'formação', experiencia: 'experiencia6'},
-    {nome: 'Isabela Ferreira', descricao: 'isabela.ferreira', formacao: 'formação', experiencia: 'experiencia7'},
-    {nome: 'Rafael Santos', descricao: 'rafael.santos', formacao: 'formação', experiencia: 'experiencia8'}
-  ]
 
 
   public infos : any = {
@@ -132,7 +108,7 @@ export class ResultServiceComponent {
 
   getData(){
     this.card_infos = []
-    fetch('http://localhost:5000/projetos?limit=200&offset=0').then(data=>{
+    fetch('http://localhost:5000/resultados?limit=200&offset=0').then(data=>{
       return data.json()
     }).then((result=>{
       console.log(result)
@@ -141,7 +117,6 @@ export class ResultServiceComponent {
         let integrantes = []
         let pesquisadores = []
         r.showOptions = false
-        r.pessoas = this.pessoas
         for(let p of r.pessoas){
           if(p.tipo == "i"){
             p.pessoa.show = true
@@ -160,7 +135,7 @@ export class ResultServiceComponent {
 
   deleteRegister(e:Event, id: any){
     e.stopPropagation()
-    fetch(`http://localhost:5000/projetos/${id}`, {
+    fetch(`http://localhost:5000/resultados/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -172,12 +147,11 @@ export class ResultServiceComponent {
           this.selectedPerson = '' 
           this.editModal = false
           this.getData()
-          this.alert('alert', 'Projeto deletado com sucesso.')
+          this.alert('alert', 'Resultado deletado com sucesso.')
         })
         .catch(error => {
           console.error(error);
         });
-
   }
   
 
@@ -207,10 +181,11 @@ export class ResultServiceComponent {
       titulo: this.name.value,
       descricao: this.descricao.value,
       pessoas: arrayPessoas,
-      projeto: this.projeto
+      tipo: this.tipo.value
     }
 
     if(edit){
+      this.infos.projeto_codigo = this.selectedPerson.projeto.codigo
       let pessoasUpdate: Array<any> = []
       pessoasUpdate = this.selectedPerson.pessoas
       this.infos.pessoas = pessoasUpdate
@@ -228,7 +203,25 @@ export class ResultServiceComponent {
           }
         }
       }
-      fetch(`http://localhost:5000/projetos/${id}`, {
+      if(this.integrantes.length > 0){
+        for(let i of this.integrantes){
+          let obj = {
+            tipo: "i",
+            codigo: i.codigo
+          }
+          pessoasUpdate.push(obj)
+        }
+      }
+      if(this.pesquisadores.length > 0){
+        for(let i of this.pesquisadores){
+          let obj = {
+            tipo: "p",
+            codigo: i.codigo
+          }
+          pessoasUpdate.push(obj)
+        }
+      }
+      fetch(`http://localhost:5000/resultados/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -250,13 +243,14 @@ export class ResultServiceComponent {
 
     }
     else{
+      this.infos.projeto_codigo = this.projeto.codigo
       if(this.infos.nome == ''){
         this.error = true
         return
       }
       else{
         this.error = false
-        fetch('http://localhost:5000/projetos', {
+        fetch('http://localhost:5000/resultados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -266,7 +260,7 @@ export class ResultServiceComponent {
         .then(response => response.json())
         .then(data => {
           console.log(data);
-          this.alert('alert', 'Pessoa criada com sucesso.')
+          this.alert('alert', 'Resultado criada com sucesso.')
         })
         .catch(error => {
           console.error(error);
@@ -321,6 +315,10 @@ export class ResultServiceComponent {
     this.descricao.setValue('')
     this.formation.setValue('')
     this.experience.setValue('')
+    this.tipo.setValue('')
+    this.integrantes = []
+    this.pesquisadores = []
+    this.projeto = ''
   }
 
   closeEditModal(){
@@ -334,6 +332,7 @@ export class ResultServiceComponent {
     console.log(this.selectedPerson)
     this.name.setValue(this.selectedPerson.titulo)
     this.descricao.setValue(this.selectedPerson.descricao)
+    this.tipo.setValue(this.selectedPerson.tipo)
 
   }
 
