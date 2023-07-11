@@ -166,7 +166,7 @@
                 <div class="form-card" *ngIf="selectedPerson.resultados.length > 0">
                     <span class="card-title">Resultados vinculados:</span>
                     <div class="linked-person">
-                        <div class="linked" [matTooltip]="'Descrição: '+p.descricao" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default" *ngFor="let p of selectedPerson.resultados">
+                        <div class="linked" [matTooltip]="'Tipo: '+p.tipo" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default" *ngFor="let p of selectedPerson.resultados">
                             <span>{{p.titulo}}</span>
                         </div>
                     </div>
