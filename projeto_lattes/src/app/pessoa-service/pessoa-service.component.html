@@ -107,7 +107,7 @@
             <span class="iconify person-icon" data-icon="material-symbols:person"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.nome}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner not-projects" [ngClass]="{'has-projects' : i.projetos.length > 0}">{{i.projetos.length}} projeto(s) vinculado(s)</div>
         </div>
     </div>
     
