@@ -143,13 +143,16 @@
   margin-top: 25px;
   }
   .name{
-  width: 80%;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-  text-align: center;
-  font-size: 17px;
-  color: white;
-  margin-top: 8px;
+    width: 80%;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 17px;
+    color: white;
+    margin-top: 8px;
+    max-height: 40px;
   }
   .description{
     width: 80%;
@@ -159,7 +162,7 @@
     font-size: 14px;
     color: white;
     margin-top: 10px;
-    max-height: 80px;
+    max-height: 70px;
     overflow-y: scroll;
     margin-bottom: 10px;
   }
@@ -363,5 +366,8 @@
   }
   .none{
     display: none !important;
+  }
+  input[type=date] {
+    padding-right: 10px;
   }
   

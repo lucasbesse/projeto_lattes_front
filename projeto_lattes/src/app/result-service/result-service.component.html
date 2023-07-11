@@ -13,7 +13,7 @@
         <span>Cadastrar</span>
     </div>
 </div>
-<div class="big-container">
+<div class="big-container" style="min-height: 150vh !important;">
     <div style="display: flex; width: 80%; align-items: center; margin-top:20px; justify-content: center;" *ngIf="manage">
         <input type="text" class="search-input" placeholder="Busque por titulo" [(ngModel)]="text_search">
         <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;" (click)="advancedSearch()">
@@ -35,6 +35,10 @@
         <div class="form-card">
             <span class="card-title">Descreva o tipo do resultado:</span>
             <input [formControl]="tipo" class="text" type="text">
+        </div>
+        <div class="form-card">
+            <span class="card-title">Data de publicação:</span>
+            <input [formControl]="publicacao" class="text" type="date">
         </div>
 
         <div class="form-card" *ngIf="person_data.length > 0">
@@ -78,7 +82,7 @@
         </div>
     </div>
 
-    <div class="cards-container" *ngIf="manage && searched_infos.length == 0" style="margin-top: -20px;">
+    <div class="cards-container" *ngIf="manage && searched_infos.length == 0" style="margin-top: 20px;">
         <div class="person-card animate__animated animate__flipInY" style="min-height: 280px;" *ngFor="let i of card_infos">
             <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
@@ -95,7 +99,7 @@
             <div class="banner not-projects" *ngIf="i.projeto == null">Não possui projeto vinculado</div>
         </div>
     </div>
-    <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: -20px;">
+    <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: 20px;">
         <div class="person-card animate__animated animate__flipInY" style="min-height: 280px;" *ngFor="let i of searched_infos">
             <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
@@ -132,6 +136,10 @@
                     <span class="card-title">Tipo do resultado:</span>
                     <input [formControl]="tipo" class="text" type="text">
                 </div>
+                <div class="form-card">
+                    <span class="card-title">Data de publicação:</span>
+                    <input [formControl]="publicacao" class="text" type="date">
+                </div>
                 <div class="form-card" *ngIf="selectedPerson.integrantes.length > 0">
                     <span class="card-title">Autores vinculados:</span>
                     <div class="linked-person">
@@ -154,17 +162,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="form-card" *ngIf="selectedPerson.projeto != null">
+                <div class="form-card" *ngIf="selectedPerson.projeto != null">
                     <span class="card-title">Projeto vinculado:</span>
                     <div class="linked-person">
-                        <div class="linked" *ngFor="let p of selectedPerson.integrantes"  [ngClass]="{'none' : p.show == false}">
-                            <span>{{p.nome}}</span>
-                            <div style="margin-left: 8px; margin-bottom: -3px; cursor:pointer" (click)="removeRelationship(p)">
-                                <span style="font-size: 19px !important; color:rgb(37, 35, 35)" class="iconify" data-icon="mdi:trash"></span>
-                            </div>
+                        <div class="linked" [matTooltip]="'Descrição: '+selectedPerson.projeto.descricao" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default">
+                            <span>{{selectedPerson.projeto.titulo}}</span>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="form-card" *ngIf="person_data.length > 0">
                     <span class="card-title">Colaboradores:</span>
                     <mat-form-field>

@@ -87,11 +87,11 @@ export class PessoaServiceComponent implements OnInit {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Pessoa deletada com sucesso.')
+          this.clear()
         })
         .catch(error => {
           console.error(error);
         });
-
   }
   
 
@@ -165,6 +165,7 @@ export class PessoaServiceComponent implements OnInit {
     this.email.setValue('')
     this.formation.setValue('')
     this.experience.setValue('')
+    this.searched_infos = []
   }
 
   closeEditModal(){

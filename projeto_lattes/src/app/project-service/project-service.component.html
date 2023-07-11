@@ -13,9 +13,9 @@
         <span>Cadastrar</span>
     </div>
 </div>
-<div class="big-container">
+<div class="big-container" style="min-height: 150vh !important;">
     <div style="display: flex; width: 80%; align-items: center; margin-top:20px; justify-content: center;" *ngIf="manage">
-        <input type="text" class="search-input" placeholder="Busque por titulo" [(ngModel)]="text_search">
+        <input type="text" class="search-input" placeholder="Busque por titulo ou palavra chave" [(ngModel)]="text_search">
         <div class="search-btn" style="border-radius: 0px 30px 30px 0px; margin-left: 0px; height: 40px; width: 13%;" (click)="advancedSearch()">
             <span class="iconify" style="font-size: 20px; margin-right: 8px;" data-icon="material-symbols:search"></span>
             <span>Pesquisar</span>
@@ -31,6 +31,20 @@
         <div class="form-card">
             <span class="card-title">Descrição do projeto: <i>- obrigatório</i></span>
             <input [formControl]="descricao" class="text" type="text">
+        </div>
+        <div class="form-card" style="flex-direction: row !important;">
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <span class="card-title">Data de início:</span>
+                <input style="max-width: 90%;" [formControl]="inicio" class="text" type="date">
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; margin-right: -10px;">
+                <span class="card-title">Data de final:</span>
+                <input style="max-width: 90%;" [formControl]="final" class="text" type="date">
+            </div>
+        </div>
+        <div class="form-card">
+            <span class="card-title">Palavras chaves: </span>
+            <input [formControl]="chave" class="text" type="text">
         </div>
 
         <div class="form-card" *ngIf="person_data.length > 0">
@@ -65,7 +79,7 @@
         </div>
     </div>
 
-    <div class="cards-container" *ngIf="manage && searched_infos.length == 0" style="margin-top: -20px;">
+    <div class="cards-container" *ngIf="manage && searched_infos.length == 0" style="margin-top: 20px;">
         <div class="person-card animate__animated animate__flipInY" style="min-height: 280px;" *ngFor="let i of card_infos">
             <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
@@ -81,7 +95,7 @@
             <div class="banner not-projects" [ngClass]="{'has-projects' : i.resultados.length > 0}">{{i.resultados.length}} resultado(s) vinculado(s)</div>
         </div>
     </div>
-    <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: -20px;">
+    <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: 20px;">
         <div class="person-card animate__animated animate__flipInY" style="min-height: 280px;" *ngFor="let i of searched_infos">
             <div class="options" (click)="i.showOptions = !i.showOptions">
                 <span class="iconify" data-icon="simple-line-icons:options-vertical"></span>
@@ -113,6 +127,20 @@
                     <span class="card-title">Descrição do projeto:</span>
                     <input [formControl]="descricao" class="text" type="text">
                 </div>
+                <div class="form-card" style="flex-direction: row !important;">
+                    <div style="flex: 1; display: flex; flex-direction: column;">
+                        <span class="card-title">Data de início:</span>
+                        <input style="max-width: 90%;" [formControl]="inicio" class="text" type="date">
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; margin-right: -10px;">
+                        <span class="card-title">Data de final:</span>
+                        <input style="max-width: 90%;" [formControl]="final" class="text" type="date">
+                    </div>
+                </div>
+                <div class="form-card">
+                    <span class="card-title">Palavras chaves: </span>
+                    <input [formControl]="chave" class="text" type="text">
+                </div>
                 <div class="form-card" *ngIf="selectedPerson.pesquisadores.length > 0">
                     <span class="card-title">Pesquisadores já vinculados:</span>
                     <div class="linked-person">
@@ -138,7 +166,7 @@
                 <div class="form-card" *ngIf="selectedPerson.resultados.length > 0">
                     <span class="card-title">Resultados vinculados:</span>
                     <div class="linked-person">
-                        <div class="linked" [matTooltip]="p.descricao" mat-raised-button style="background: rgb(13, 176, 13) !important; color: white" *ngFor="let p of selectedPerson.resultados">
+                        <div class="linked" [matTooltip]="'Descrição: '+p.descricao" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default" *ngFor="let p of selectedPerson.resultados">
                             <span>{{p.titulo}}</span>
                         </div>
                     </div>

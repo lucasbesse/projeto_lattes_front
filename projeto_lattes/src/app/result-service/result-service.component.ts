@@ -91,6 +91,7 @@ export class ResultServiceComponent {
   formation = new FormControl('');
   experience = new FormControl('');
   tipo = new FormControl('');
+  publicacao = new FormControl('')
 
   public error: boolean = false;
 
@@ -148,6 +149,7 @@ export class ResultServiceComponent {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Resultado deletado com sucesso.')
+          this.clear()
         })
         .catch(error => {
           console.error(error);
@@ -156,11 +158,14 @@ export class ResultServiceComponent {
   
 
   save(edit?: any, id?: any){
+    
     this.error = false
     if(this.descricao.value?.length == 0 || this.name.value?.length == 0){
       this.error = true
       return
     }
+    let body = document.body
+    body.style.cursor = 'wait'
     let arrayPessoas = []
     for(let i of this.integrantes){
       let obj = {
@@ -181,7 +186,8 @@ export class ResultServiceComponent {
       titulo: this.name.value,
       descricao: this.descricao.value,
       pessoas: arrayPessoas,
-      tipo: this.tipo.value
+      tipo: this.tipo.value,
+      data_publicacao: this.publicacao.value
     }
 
     if(edit){
@@ -242,6 +248,7 @@ export class ResultServiceComponent {
           this.getData()
           this.alert('alert', 'Informações atualizadas com sucesso.')
           this.clear()
+          body.style.cursor = 'default'
         })
         .catch(error => {
           console.error(error);
@@ -269,6 +276,7 @@ export class ResultServiceComponent {
           console.log(data);
           this.alert('alert', 'Resultado criada com sucesso.')
           this.clear()
+          body.style.cursor = 'default'
         })
         .catch(error => {
           console.error(error);
@@ -322,9 +330,11 @@ export class ResultServiceComponent {
     this.formation.setValue('')
     this.experience.setValue('')
     this.tipo.setValue('')
+    this.publicacao.setValue('')
     this.integrantes = []
     this.pesquisadores = []
     this.projeto = ''
+    this.searched_infos = []
   }
 
   closeEditModal(){
@@ -339,7 +349,7 @@ export class ResultServiceComponent {
     this.name.setValue(this.selectedPerson.titulo)
     this.descricao.setValue(this.selectedPerson.descricao)
     this.tipo.setValue(this.selectedPerson.tipo)
-
+    this.publicacao.setValue(this.selectedPerson.data_publicacao)
   }
 
   stopPropagation(e: Event){

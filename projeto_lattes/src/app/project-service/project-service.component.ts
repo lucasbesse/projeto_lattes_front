@@ -86,6 +86,9 @@ export class ProjectServiceComponent {
   descricao = new FormControl('');
   formation = new FormControl('');
   experience = new FormControl('');
+  inicio = new FormControl('');
+  final = new FormControl('');
+  chave = new FormControl('');
 
   public error: boolean = false;
 
@@ -152,11 +155,11 @@ export class ProjectServiceComponent {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Projeto deletado com sucesso.')
+          this.clear()
         })
         .catch(error => {
           console.error(error);
         });
-
   }
   
 
@@ -166,6 +169,8 @@ export class ProjectServiceComponent {
       this.error = true
       return
     }
+    let body = document.body
+    body.style.cursor = 'wait'
     let arrayPessoas = []
     for(let i of this.integrantes){
       let obj = {
@@ -185,7 +190,10 @@ export class ProjectServiceComponent {
     this.infos = {
       titulo: this.name.value,
       descricao: this.descricao.value,
-      pessoas: arrayPessoas
+      pessoas: arrayPessoas,
+      data_inicio: this.inicio.value,
+      data_final: this.final.value,
+      palavras_chave: this.chave.value
     }
 
     if(edit){
@@ -238,6 +246,7 @@ export class ProjectServiceComponent {
           this.editModal = false
           this.getData()
           this.alert('alert', 'Informações atualizadas com sucesso.')
+          body.style.cursor = 'default'
           this.clear()
           this.searched_infos = []
         })
@@ -265,6 +274,7 @@ export class ProjectServiceComponent {
         .then(data => {
           console.log(data);
           this.alert('alert', 'Projeto criado com sucesso.')
+          body.style.cursor = 'default'
           this.clear()
           this.searched_infos = []
         })
@@ -279,9 +289,11 @@ export class ProjectServiceComponent {
 
   advancedSearch(){
     this.searched_infos = []
+    console.log(this.card_infos)
       for(let e of this.card_infos){
         let nome = e.titulo + ''
-        if(nome.includes(this.text_search)){
+        let chaves = e.palavras_chave != null ? e.palavras_chave : ''
+        if(nome.includes(this.text_search) || chaves.includes(this.text_search)){
           this.searched_infos.push(e)
         }
     }
@@ -309,8 +321,12 @@ export class ProjectServiceComponent {
     this.descricao.setValue('')
     this.formation.setValue('')
     this.experience.setValue('')
+    this.inicio.setValue('')
+    this.final.setValue('')
+    this.chave.setValue('')
     this.integrantes = []
     this.pesquisadores = []
+    this.searched_infos = []
   }
 
   closeEditModal(){
@@ -325,7 +341,9 @@ export class ProjectServiceComponent {
     console.log(this.selectedPerson)
     this.name.setValue(this.selectedPerson.titulo)
     this.descricao.setValue(this.selectedPerson.descricao)
-
+    this.inicio.setValue(this.selectedPerson.data_inicio)
+    this.final.setValue(this.selectedPerson.data_final)
+    this.chave.setValue(this.selectedPerson.palavras_chave)
   }
 
   stopPropagation(e: Event){

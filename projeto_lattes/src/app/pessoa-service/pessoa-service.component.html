@@ -92,7 +92,7 @@
             <span class="iconify person-icon" data-icon="material-symbols:person"></span>
             <hr style="background: white; height: 2px; width: 50%; border-radius: 29%;">
             <span class="name">{{i.nome}}</span>
-            <div class="banner not-projects">0 projetos vinculados</div>
+            <div class="banner not-projects" [ngClass]="{'has-projects' : i.projetos.length > 0}">{{i.projetos.length}} projeto(s) vinculado(s)</div>
         </div>
     </div>
     <div class="cards-container" *ngIf="manage && searched_infos.length > 0" style="margin-top: -20px;">
@@ -132,6 +132,22 @@
                 <div class="form-card">
                     <span class="card-title">Experiência profissional:</span>
                     <input [formControl]="experience" class="text" type="text">
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.resultados.length > 0">
+                    <span class="card-title">Resultados vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.resultados" [matTooltip]="'Tipo: '+p.tipo" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default">
+                            <span>{{p.titulo}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-card" *ngIf="selectedPerson.projetos.length > 0">
+                    <span class="card-title">Projetos vinculados:</span>
+                    <div class="linked-person">
+                        <div class="linked" *ngFor="let p of selectedPerson.projetos" [matTooltip]="'Descrição: '+p.descricao" mat-raised-button style="background: rgb(9, 139, 9) !important; color: white; cursor: default">
+                            <span>{{p.titulo}}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-card">
                     <div style="width: 100%;display: flex;align-items: flex-end;justify-content: flex-end;height: 100%;">
